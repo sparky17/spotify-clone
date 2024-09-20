@@ -3,7 +3,6 @@ import Sidebar from '../Components/Sidebar/Sidebar'
 
 
 export default function Layout({children}) {
-    console.log("lay")
 
   return (
     <div className='flex gap-2'>

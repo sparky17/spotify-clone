@@ -15,6 +15,7 @@ body{
     background-color: black;
     color: #fff;
     scroll-behavior: smooth;
+    padding: 5px;
 }
 :root{
     --secondary_bg:#121212;
