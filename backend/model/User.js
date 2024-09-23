@@ -1,34 +1,38 @@
 const mongoose = require('mongoose');
 
-const User= new mongoose.Schema({
-    firstName:{
-        type:String,
-        required:true
-    },lastName:{
-        type:String,
-        required:false
+const UserSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: true,
     },
-    email:{
-        type:String,
-        required:true
+    lastName: {
+        type: String,
+        required: false,
     },
-    userName:{
-        type:String,
-        required:true
+    email: {
+        type: String,
+        required: true,
+        unique: true, // Ensure email is unique
     },
-    likedSongs:{
-        type:String ,//will convert into array later
-        default:""
+    userName: {
+        type: String,
+        required: true,
+        unique: true, // Ensure username is unique
     },
-    likedPlaylist:{
-        type:String ,//will convert into array later
-        default:""
+    likedSongs: {
+        type: [String], // Changed to array of strings
+        default: [],
     },
-    subscribedArtists:{
-        type:String ,//will convert into array later
-        default:""
+    likedPlaylist: {
+        type: [String], // Changed to array of strings
+        default: [],
+    },
+    subscribedArtists: {
+        type: [String], // Changed to array of strings
+        default: [],
     },
 });
 
-const UserModel =mongoose.model("User",User);
-module.exports=UserModel;
+const UserModel = mongoose.model("User", UserSchema);
+
+module.exports = UserModel;
