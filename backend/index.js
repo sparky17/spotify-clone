@@ -4,9 +4,11 @@ const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('./model/User'); 
+const Song=require('./model/Song')
 const app = express();
 const port = 3000;
-
+const authRoutes=require('./Routes/auth')
+const songRoutes=require('./Routes/Song')
 // Middleware to parse JSON
 app.use(express.json());
 
@@ -47,7 +49,9 @@ app.get('/protected', passport.authenticate('jwt', { session: false }), (req, re
   res.send(`Hello, ${req.user.firstName}!`);
 });
 
-// Start the server
+
+app.use("/auth",authRoutes);
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
