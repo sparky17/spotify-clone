@@ -28,7 +28,7 @@ router.post('/register', validateRegistration, async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-
+        console.log(hashedPassword)
         const newUserData = { email, password: hashedPassword, firstName, lastName, userName };
         const newUser = await User.create(newUserData); // This is where the new user is created
 

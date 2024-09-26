@@ -19,17 +19,18 @@ opts.secretOrKey = 'RandomSecret'; // Consider using a more secure secret from e
 
 // Passport JWT strategy
 passport.use(
-  new JwtStrategy(opts, (jwt_payload, done) => {
-    User.findOne({ _id: jwt_payload.sub }, (err, user) => { // Use _id to find user
-      if (err) {
-        return done(err, false);
+  new JwtStrategy(opts, async (jwt_payload, done) => {
+      try {
+          const user = await User.findById(jwt_payload.identifier);
+          if (user) {
+              return done(null, user);
+          } else {
+              return done(null, false);
+          }
+      } catch (err) {
+          console.error('Error in JWT strategy:', err);
+          return done(err, false);
       }
-      if (user) {
-        return done(null, user);
-      } else {
-        return done(null, false);
-      }
-    });
   })
 );
 
@@ -51,6 +52,7 @@ app.get('/protected', passport.authenticate('jwt', { session: false }), (req, re
 
 
 app.use("/auth",authRoutes);
+app.use('/song',songRoutes);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

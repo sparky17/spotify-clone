@@ -19,6 +19,11 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true, // Ensure username is unique
     },
+    password:{
+        type: String,
+        required: true,
+    }
+    ,
     likedSongs: {
         type: [String], // Changed to array of strings
         default: [],
