@@ -27,7 +27,7 @@ router.get("/mysongs",passport.authenticate("jwt",{session:false}),async (req,re
     return res.status(200).json({"data":songs})
 })
 
-router.get('/get/:artist' ,passport.authenticate("jwt",{session:false}) ,async (req,res)=>{
+router.get('/get/artist/:artist' ,passport.authenticate("jwt",{session:false}) ,async (req,res)=>{
     const {artistId}=req.params;
     const artist=await User.find({_id:artistId})
     if(!artist){
@@ -37,9 +37,10 @@ router.get('/get/:artist' ,passport.authenticate("jwt",{session:false}) ,async (
     return res.status(200).json({"data": songs})
 })
 
-router.get('/get/:songName' ,passport.authenticate("jwt",{session:false}) ,async (req,res)=>{
+router.get('/get/songName/:songName' ,passport.authenticate("jwt",{session:false}) ,async (req,res)=>{
     const {songName}=req.params;
-    const songs=await Song.find({ name: { $regex: songName, $options: 'i' } });
+    console.log(songName)
+    const songs = await Song.find({ name: new RegExp(songName) });
     return res.status(200).json({"data": songs})
 })
 
