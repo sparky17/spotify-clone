@@ -9,6 +9,7 @@ const app = express();
 const port = 3000;
 const authRoutes=require('./Routes/auth')
 const songRoutes=require('./Routes/Song')
+const playlistRoutes = require('./Routes/Plalist')
 // Middleware to parse JSON
 app.use(express.json());
 
@@ -53,6 +54,8 @@ app.get('/protected', passport.authenticate('jwt', { session: false }), (req, re
 
 app.use("/auth",authRoutes);
 app.use('/song',songRoutes);
+app.use('/playlist',playlistRoutes);
+
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
