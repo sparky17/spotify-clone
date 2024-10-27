@@ -1,29 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-*{
-    margin: 0;
-    padding: 0;
-}
-*{
-    text-decoration: none;
-    box-sizing: border-box;
-    list-style: none;
-}
-body{
-    background-color: black;
-    color: #fff;
-    scroll-behavior: smooth;
-    padding: 5px;
-}
-:root{
-    --secondary_bg:#121212;
-    --tertiary__bg:#242424;
-}
-.secondary_bg{
-    background: var(--secondary_bg)
-}
-.tertiary__bg{
-    background: var(--tertiary__bg);
-}

@@ -10,9 +10,10 @@ const port = 3000;
 const authRoutes=require('./Routes/auth')
 const songRoutes=require('./Routes/Song')
 const playlistRoutes = require('./Routes/Plalist')
+const cors=require('cors')
 // Middleware to parse JSON
 app.use(express.json());
-
+app.use(cors());
 // JWT strategy options
 let opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
