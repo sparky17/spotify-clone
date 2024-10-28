@@ -3,11 +3,53 @@ const router = express.Router();
 const User = require('../model/User'); 
 const bcrypt = require('bcrypt');
 const { getToken } = require('../Utils/helper');
+const Joi=require('joi');
+
+const userValidationSchema = Joi.object({
+    firstName: Joi.string()
+        .required()
+        .messages({
+            'string.base': 'First name must be a string',
+            'any.required': 'First name is required',
+        }),
+    lastName: Joi.string().optional(),
+    email: Joi.string()
+        .email()
+        .required()
+        .messages({
+            'string.base': 'Email must be a string',
+            'string.email': 'Email must be a valid email address',
+            'any.required': 'Email is required',
+        }),
+    userName: Joi.string()
+        .required()
+        .messages({
+            'string.base': 'Username must be a string',
+            'any.required': 'Username is required',
+        }),
+    password: Joi.string()
+        .required()
+        .min(6)
+        .messages({
+            'string.base': 'Password must be a string',
+            'string.min': 'Password must be at least 6 characters long',
+            'any.required': 'Password is required',
+        }),
+    likedSongs: Joi.array()
+        .items(Joi.string())
+        .default([]),
+    likedPlaylist: Joi.array()
+        .items(Joi.string())
+        .default([]),
+    subscribedArtists: Joi.array()
+        .items(Joi.string())
+        .default([]),
+});
 
 // Middleware to validate request body
 const validateRegistration = (req, res, next) => {
     const { email, password, firstName, lastName, userName } = req.body;
-    if (!email || !password || !firstName || !userName) {
+    if (!email || !password || !firstName || !lastName|| !userName) {
         return res.status(400).json({ error: "All fields are required." });
     }
     next();
@@ -15,6 +57,10 @@ const validateRegistration = (req, res, next) => {
 
 router.post('/register', validateRegistration, async (req, res) => {
     const { email, password, firstName, lastName, userName } = req.body;
+    const { error } = userValidationSchema.validate(req.body);
+    if(error){
+        return res.status(400).json({ message: error.details[0].message });
+    }
 
     try {
         const existingEmail = await User.findOne({ email });
